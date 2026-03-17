@@ -12,6 +12,8 @@ from fastapi import HTTPException
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
+
+
 # Ollama LLM
 llm = ChatOllama(model="llama2")
 
