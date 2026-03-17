@@ -5,3 +5,5 @@ uvicorn
 python-dotenv
 langchain-community
 jinja2
+langchain-google-genai
+openai

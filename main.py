@@ -7,72 +7,59 @@ from langchain_community.chat_models import ChatOllama
 from langchain_core.messages import HumanMessage, AIMessage
 from langgraph.graph import StateGraph, END
 
+from fastapi import HTTPException
+
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
-llm = ChatOllama(model="llama3")
+# Ollama LLM
+llm = ChatOllama(model="llama2")
 
-# Defining state 
 class ChatState(TypedDict):
     messages: List
 
-
-
-# -------- Node --------
 def chatbot(state: ChatState):
-
-    # It is used to send full messages
     response = llm.invoke(state["messages"])
-
-    # Adding AI response
-    new_messages = state["messages"] + [
-        AIMessage(content=response.content)
-    ]
-
+    new_messages = state["messages"] + [AIMessage(content=response.content)]
     return {"messages": new_messages}
 
-
-
 builder = StateGraph(ChatState)
-
 builder.add_node("chatbot", chatbot)
-
 builder.set_entry_point("chatbot")
-
 builder.add_edge("chatbot", END)
-
 graph = builder.compile()
 
-
-conversation_memory = []
-
-
+conversation_memory: List = []
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
- #-------- API --------
 @app.post("/ask")
 async def ask(request: Request):
-
     global conversation_memory
-
     data = await request.json()
+    question = data.get("question")
 
-     # It is used to store questions and answers
-    conversation_memory.append(
-        HumanMessage(content=data["question"])
-    )
+    if not question:
+        return {"answer": "Please ask a question."}
 
-    result = graph.invoke({
-        "messages": conversation_memory
-    })
+    conversation_memory.append(HumanMessage(content=question))
 
-    # AI response will be stored
-    conversation_memory = result["messages"]
+    try:
+        # Try to generate AI response
+        result = graph.invoke({"messages": conversation_memory})
+        conversation_memory = result["messages"]
+        answer = result["messages"][-1].content
+        return {"answer": answer}
 
-    return {
-        "answer": result["messages"][-1].content
-    }
+    except Exception as e:
+        # Log error to console (optional)
+        print("Error in /ask:", e)
+
+        # Return error message in response with HTTP 500
+        raise HTTPException(
+            status_code=500,
+            detail=f"Internal Server Error: {str(e)}"
+        )
