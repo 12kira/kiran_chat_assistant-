@@ -8,11 +8,14 @@ from langchain_core.messages import HumanMessage, AIMessage
 from langgraph.graph import StateGraph, END
 from dotenv import load_dotenv
 import os
+from fastapi.staticfiles import StaticFiles
 
 load_dotenv() 
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 #  ONLY GROQ (no Ollama anywhere)
 llm = ChatOpenAI(
