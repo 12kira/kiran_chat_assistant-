@@ -1,214 +1,222 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Kiran AI Assistant</title>
+    <title>Kiran AI Assistant</title>
 
-<style>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(-45deg, #4facfe, #6a11cb, #00c6ff, #8e54e9);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
 
-body{
-    font-family:"Segoe UI",sans-serif;
-    background: linear-gradient(-45deg,#4facfe,#6a11cb,#00c6ff,#8e54e9);
-    background-size:400% 400%;
-    animation: gradientMove 12s ease infinite;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    margin:0;
-    position:relative;
-}
+        /* watermark */
+        body::before {
+            content: "KIRAN AI  •  KIRAN AI  •  KIRAN AI  •  KIRAN AI";
+            position: absolute;
+            font-size: 70px;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.05);
+            transform: rotate(-30deg);
+            white-space: nowrap;
+        }
 
-/* watermark */
-body::before{
-    content:"KIRAN AI  •  KIRAN AI  •  KIRAN AI  •  KIRAN AI";
-    position:absolute;
-    font-size:70px;
-    font-weight:bold;
-    color:rgba(255,255,255,0.05);
-    transform:rotate(-30deg);
-    white-space:nowrap;
-}
+        /* animation */
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
 
-/* animation */
-@keyframes gradientMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
+            50% {
+                background-position: 100% 50%;
+            }
 
-.chat-container{
-    width:520px;
-    background:white;
-    border-radius:16px;
-    box-shadow:0 15px 40px rgba(0,0,0,0.3);
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
-    z-index:1;
-}
+            100% {
+                background-position: 0% 50%;
+            }
+        }
 
-.header{
-    background:linear-gradient(135deg,#4facfe,#00f2fe);
-    color:white;
-    padding:18px;
-    text-align:center;
-    font-size:20px;
-    font-weight:bold;
-}
+        .chat-container {
+            width: 520px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1;
+        }
 
-.header span{
-    display:block;
-    font-size:12px;
-    opacity:0.9;
-}
+        .header {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 18px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
 
-.chat-box{
-    height:420px;
-    overflow-y:auto;
-    padding:20px;
-    display:flex;
-    flex-direction:column;
-    background:#f8fafc;
-}
+        .header span {
+            display: block;
+            font-size: 12px;
+            opacity: 0.9;
+        }
 
-.message{
-    margin:10px 0;
-    padding:12px 16px;
-    border-radius:12px;
-    max-width:75%;
-    font-size:14px;
-    line-height:1.5;
-}
+        .chat-box {
+            height: 420px;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            background: #f8fafc;
+        }
 
-.user{
-    background:#dbeafe;
-    align-self:flex-end;
-}
+        .message {
+            margin: 10px 0;
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 75%;
+            font-size: 14px;
+            line-height: 1.5;
+        }
 
-.ai{
-    background:#f1f5f9;
-}
+        .user {
+            background: #dbeafe;
+            align-self: flex-end;
+        }
 
-.ai::before{
-    content:"🤖 ";
-}
+        .ai {
+            background: #f1f5f9;
+        }
 
-.input-area{
-    display:flex;
-    border-top:1px solid #eee;
-}
+        .ai::before {
+            content: "🤖 ";
+        }
 
-input{
-    flex:1;
-    padding:14px;
-    border:none;
-    outline:none;
-    font-size:14px;
-}
+        .input-area {
+            display: flex;
+            border-top: 1px solid #eee;
+        }
 
-button{
-    background:#4facfe;
-    color:white;
-    border:none;
-    padding:0 25px;
-    cursor:pointer;
-    font-size:14px;
-    transition:0.3s;
-}
+        input {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
 
-button:hover{
-    background:#3182f6;
-}
+        button {
+            background: #4facfe;
+            color: white;
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
 
-</style>
+        button:hover {
+            background: #3182f6;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="chat-container">
+    <div class="chat-container">
 
-<div class="header">
-🤖 Kiran Ananthula AI Assistant
-<span>Smart conversations powered by AI</span>
-</div>
+        <div class="header">
+            🤖 Kiran Ananthula AI Assistant
+            <span>Smart conversations powered by AI</span>
+        </div>
 
-<div class="chat-box" id="chatBox">
+        <div class="chat-box" id="chatBox">
 
-<div class="message ai">
-Hello 👋  
-Welcome to Kiran Ananthula AI Assistant.  
-Ask me anything and I'll try my best to help!
-</div>
+            <div class="message ai">
+                Hello 👋
+                Welcome to Kiran Ananthula AI Assistant.
+                Ask me anything and I'll try my best to help!
+            </div>
 
-</div>
+        </div>
 
-<div class="input-area">
-<input type="text" id="question" placeholder="Ask something..." />
-<button onclick="askAI()">Send</button>
-</div>
+        <div class="input-area">
+            <input type="text" id="question" placeholder="Ask something..." />
+            <button onclick="askAI()">Send</button>
+        </div>
 
-</div>
+    </div>
 
-<script>
+    <script>
 
-const input = document.getElementById("question");
+        const input = document.getElementById("question");
 
-input.addEventListener("keypress", function(e) {
-    if (e.key === "Enter") {
-        askAI();
-    }
-});
+        input.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                askAI();
+            }
+        });
 
-async function askAI(){
+        async function askAI() {
 
-    const questionInput = document.getElementById("question");
-    const chatBox = document.getElementById("chatBox");
+            const questionInput = document.getElementById("question");
+            const chatBox = document.getElementById("chatBox");
 
-    const question = questionInput.value;
+            const question = questionInput.value;
 
-    if(question.trim() === "") return;
+            if (question.trim() === "") return;
 
-    // show user message
-    const userMsg = document.createElement("div");
-    userMsg.className = "message user";
-    userMsg.innerText = question;
+            // show user message
+            const userMsg = document.createElement("div");
+            userMsg.className = "message user";
+            userMsg.innerText = question;
 
-    chatBox.appendChild(userMsg);
+            chatBox.appendChild(userMsg);
 
-    questionInput.value="";
+            questionInput.value = "";
 
-    // loading message
-    const loading = document.createElement("div");
-    loading.className="message ai";
-    loading.innerText="Thinking...";
-    chatBox.appendChild(loading);
+            // loading message
+            const loading = document.createElement("div");
+            loading.className = "message ai";
+            loading.innerText = "Thinking...";
+            chatBox.appendChild(loading);
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+            chatBox.scrollTop = chatBox.scrollHeight;
 
-    const res = await fetch("/ask",{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({question})
-    });
+            const res = await fetch("/ask", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ question })
+            });
 
-    const data = await res.json();
+            const data = await res.json();
 
-    loading.remove();
+            loading.remove();
 
-    // show AI response
-    const aiMsg = document.createElement("div");
-    aiMsg.className="message ai";
-    aiMsg.innerText=data.answer;
+            // show AI response
+            const aiMsg = document.createElement("div");
+            aiMsg.className = "message ai";
+            aiMsg.innerText = data.answer;
 
-    chatBox.appendChild(aiMsg);
+            chatBox.appendChild(aiMsg);
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+            chatBox.scrollTop = chatBox.scrollHeight;
 
-}
+        }
 
-</script>
+    </script>
 
 </body>
+
 </html>
